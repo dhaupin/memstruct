@@ -86,7 +86,7 @@ memstruct is grounded in two shipped engines, not invented:
 - **vant** - markdown memory files in your own repository, "git history becomes the memory lineage." The store shape.
 - **gistory** - a pure, deterministic, tombstone-aware LWW merge. The reference algorithm.
 
-Two engines, two persistence stories, one grammar. packstruct binds memstruct through two profiles, `memory` (the store binding) and `sync` (the replicated binding).
+Two engines, two persistence stories, one grammar. packstruct binds memstruct through two profiles, `memory` (the store binding, dhaupin/vant#354) and `sync` (the replicated binding, dhaupin/gistory#69).
 
 ## Prior art
 
