@@ -41,8 +41,8 @@ export default {
   // freestruct layer reads host + path separately).
   docs: {
     title: 'memstruct docs',
-    url: 'docs.creadev.org/memstruct',
-    host: 'docs.creadev.org',
+    url: 'https://docs.creadev.org/memstruct',
+    host: 'https://docs.creadev.org',
     baseurl: '/memstruct',
   },
 
