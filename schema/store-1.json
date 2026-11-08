@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memstruct.dev/schema/store-1.json",
+  "title": "memstruct store v1",
+  "description": "The unit of exchange: a memory store. Envelope fields are shared facts; body fields are host-owned and carried through, never refused.",
+  "type": "object",
+  "required": ["memstruct", "records"],
+  "properties": {
+    "memstruct": { "const": 1 },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "createdAt"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "createdAt": { "type": "integer" },
+          "updatedAt": { "type": "integer" },
+          "deletedAt": { "type": ["integer", "null"] },
+          "kind": { "type": "string" },
+          "scope": { "type": "string" },
+          "body": { "type": "string" },
+          "links": { "type": "array", "items": { "type": "string" } },
+          "provenance": { "type": "object" },
+          "ttl": { "type": ["integer", "null"] },
+          "meta": { "type": "object" }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

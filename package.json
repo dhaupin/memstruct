@@ -1,0 +1,57 @@
+{
+  "name": "memstruct",
+  "version": "0.9.0",
+  "description": "A memory standard for all: one record format and one merge contract so memory systems interoperate. Zero-dependency CLI - lint, merge (LWW + tombstones), audit-merge.",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "memstruct": "bin/cli.mjs"
+  },
+  "exports": {
+    ".": "./src/index.mjs",
+    "./merge": "./src/merge.mjs",
+    "./lint": "./src/lint.mjs",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "bin/",
+    "src/",
+    "spec/",
+    "schema/",
+    "conformance/",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node test/run.mjs",
+    "lint:language": "node scripts/check-language.cjs",
+    "lint:pins": "node scripts/check-action-pins.cjs",
+    "lint:spec": "node scripts/check-spec-consistency.cjs",
+    "conform": "node bin/cli.mjs audit-merge conformance/cases",
+    "check": "npm run test && npm run lint:language && npm run lint:pins && npm run lint:spec && npm run conform",
+    "prepublishOnly": "npm run check"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "memory",
+    "spec",
+    "standard",
+    "interchange",
+    "merge",
+    "last-write-wins",
+    "tombstone",
+    "crdt",
+    "mcp",
+    "sync",
+    "agent"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dhaupin/memstruct.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dhaupin/memstruct/issues"
+  },
+  "homepage": "https://github.com/dhaupin/memstruct#readme"
+}
