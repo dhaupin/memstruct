@@ -1,0 +1,42 @@
+# Deploy Docs - a THIN caller of THE one docs lane (dhaupin/freestruct).
+#
+# The family builds docs from ONE lane, and this repo is a caller like every
+# sibling. This file owns only what is per-repo: the trigger, the permissions
+# (the caller grants the pages: write + id-token: write ceiling the deploy half
+# needs), the concurrency group, and the input pins. The lane owns the runbook,
+# the pinned tool installs, and the main-gated deploy job.
+#
+# The docs identity (docs/_config.yml, docs/freestruct.config.yml) is generated
+# from site.config.js by the coreforge shell's sync verb; edit that file, not
+# the generated ones. Set the Pages custom domain once in the repo's Pages
+# settings.
+
+name: Deploy Docs
+
+on:
+  push:
+    # staging validates the docs build too (a docs change that breaks the
+    # build should red-light on the integration branch, not surprise the
+    # promotion); the lane's deploy job is gated to main, so staging never
+    # publishes.
+    branches: [main, staging]
+    paths: ['docs/**', '.github/workflows/docs-deploy.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  docs:
+    # Pinned to the lane's SHA (pins, never floats): a moving @main would let
+    # the runbook change under us between runs.
+    uses: dhaupin/freestruct/.github/workflows/docs-lane.yml@7dfb1722d16b2ee173e8d4cbbd6106eecec11a1a # main
+    with:
+      ruby-version: '3.4'
+      freestruct-version: '1.3.0'

@@ -22,12 +22,14 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node test/run.mjs && node --test test/release-verify.test.cjs test/check-action-pins.test.cjs",
+    "test": "node test/run.mjs && node --test test/release-verify.test.cjs test/check-action-pins.test.cjs test/ship-from-download.test.cjs",
+    "test:ship": "node --test test/ship-from-download.test.cjs",
+    "lint:docs": "node scripts/check-docs-frontmatter.cjs && node scripts/check-docs-links.cjs && node scripts/check-docs-style.cjs && node scripts/check-fiction-signatures.cjs && node scripts/check-jekyll-filters.cjs",
     "lint:language": "node scripts/check-language.cjs",
     "lint:pins": "node scripts/check-action-pins.cjs",
     "lint:spec": "node scripts/check-spec-consistency.cjs",
     "conform": "node bin/cli.mjs audit-merge conformance/cases",
-    "check": "npm run test && npm run lint:language && npm run lint:pins && npm run lint:spec && npm run conform",
+    "check": "npm run test && npm run lint:language && npm run lint:pins && npm run lint:spec && npm run lint:docs && npm run conform",
     "prepublishOnly": "npm run check"
   },
   "engines": {
