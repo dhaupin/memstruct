@@ -1,0 +1,20 @@
+{
+  "memstruct": 1,
+  "records": [
+    {
+      "id": "a",
+      "createdAt": 100,
+      "body": "alpha"
+    },
+    {
+      "id": "b",
+      "createdAt": 200,
+      "body": "beta"
+    },
+    {
+      "id": "c",
+      "createdAt": 300,
+      "body": "gamma"
+    }
+  ]
+}

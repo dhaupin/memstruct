@@ -1,0 +1,11 @@
+{
+  "memstruct": 1,
+  "records": [
+    {
+      "id": "r2",
+      "createdAt": 100,
+      "updatedAt": 100,
+      "body": "alpha"
+    }
+  ]
+}

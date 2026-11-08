@@ -1,0 +1,29 @@
+name: test
+on:
+  push: { branches: [main, staging] }
+  pull_request: { branches: [main, staging] }
+  workflow_dispatch:
+jobs:
+  test:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with: { node-version: 20 }
+      - run: npm install --no-fund --no-audit
+      - run: npm test
+      # The battery: language gate + action pins + spec/schema consistency +
+      # the merge conformance audit. The SAME `npm run check` is the
+      # prepublishOnly gate, so a red battery blocks a PR and a publish.
+      - name: check battery
+        run: npm run check
+      # The linter must bite both ways: a valid store passes, a broken one
+      # refuses. A check that never fails proves nothing.
+      - name: lint bites both ways
+        run: |
+          node bin/cli.mjs lint conformance/cases/01-clean/local.json
+          echo '{"memstruct":1,"records":[{"createdAt":1}]}' > /tmp/bad.json
+          if node bin/cli.mjs lint /tmp/bad.json >/dev/null 2>&1; then
+            echo "lint should have failed on a record with no id"; exit 1
+          fi
