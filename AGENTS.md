@@ -32,4 +32,4 @@
 
 ## Family links
 - **packstruct** binds memstruct through the `memory` and `sync` profiles (dhaupin/packstruct#84).
-- **vant** ships the store shape (the `memory` binding). **gistory** ships the merge (the `sync` binding).
+- **vant** ships the store shape (the `memory` binding, dhaupin/vant#354). **gistory** ships the merge (the `sync` binding, dhaupin/gistory#69).
