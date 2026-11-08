@@ -6,7 +6,7 @@ site:
   # ORIGIN ONLY - no path. Page paths carry /memstruct via basePath
   # (below); putting the path here too makes the engine join host+path+slug and
   # the strict link check resolve the prefix as a directory (freestruct#32).
-  url: docs.creadev.org
+  url: https://docs.creadev.org
   description: "A memory standard for all: one record format and one merge contract, so any two memory systems exchange memory without a rewrite."
 
 # The deploy path the output tree is served under (Jekyll's baseurl). freestruct
