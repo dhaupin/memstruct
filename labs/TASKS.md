@@ -9,7 +9,7 @@ Last updated: 2026-11-08 (the first cut, built and promoted; the two bindings fi
 
 ## Next (M1)
 
-- [ ] The packstruct bindings: the `memory` and `sync` profiles that point at memstruct (dhaupin/packstruct#84).
+- [x] The packstruct bindings: the `memory` and `sync` profiles that point at memstruct (dhaupin/packstruct#84; shipped in SPEC v1.2.0, dhaupin/packstruct#87).
 - [ ] A `memstruct diff` verb (the JSON Patch / RFC 7386 shape) once a delta payload is asked for.
 - [ ] A second-language conformance run: a Python `audit-merge` over the same `conformance/cases/`, to prove the lane is language-neutral in practice, not only in principle.
 
@@ -35,3 +35,9 @@ Last updated: 2026-11-08 (the first cut, built and promoted; the two bindings fi
 **Filed.** dhaupin/gistory#69 (the `sync` binding), dhaupin/vant#354 (the `memory` binding). Resolution comment on dhaupin/packstruct#84.
 
 **Merge trail.** PR #1 (the first cut) -> PR #2 (canon align) -> PR #3 (receipt links). main == staging == `e41ff4b` at last check.
+
+## 2026-11-08 (later) - the binding ships
+
+The packstruct half landed: **dhaupin/packstruct#87** (`feat/memory-sync-profiles`) merged to staging and promoted to main by fast-forward (`main` == `staging` == `4d3ce64`). packstruct SPEC v1.2.0 declares the two profiles - `memory` (vant's store) and `sync` (gistory's merge) - each LINKING memstruct rather than copying it (the one-address rule). No `schemaVersion` move, no manifest field. The separation of concerns is now the shipped shape: packstruct owns the pack, memstruct owns the record grammar and the merge contract.
+
+Also: the two adoption issues are filed on the engines - **dhaupin/vant#354** (`memory`), **dhaupin/gistory#69** (`sync`) - and the docket row **dhaupin/packstruct#84** carries the resolution + the shipped receipt.

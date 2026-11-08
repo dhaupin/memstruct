@@ -31,5 +31,5 @@
 - Promote by FAST-FORWARD so drift cannot happen: `git push origin staging:main`.
 
 ## Family links
-- **packstruct** binds memstruct through the `memory` and `sync` profiles (dhaupin/packstruct#84).
+- **packstruct** binds memstruct through the `memory` and `sync` profiles (dhaupin/packstruct#84; shipped in SPEC v1.2.0 via dhaupin/packstruct#87).
 - **vant** ships the store shape (the `memory` binding, dhaupin/vant#354). **gistory** ships the merge (the `sync` binding, dhaupin/gistory#69).
