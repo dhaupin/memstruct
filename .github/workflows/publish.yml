@@ -1,0 +1,168 @@
+name: publish
+# The repo-cut release ladder (the family shape, receipt dhaupin/eyestruct@4e2b552,
+# newest canon dhaupin/coreforge). A tag drives the whole ladder end-to-end, and
+# nothing is earned by a green publish step alone: a publish CAN go green while
+# the registry result is wrong, because nothing asserted the tarball between
+# proof-of-publish and proof-of-work.
+#
+#   1. publish  - npm Trusted Publishing (OIDC): NO publish token exists
+#                 anywhere. The job's id-token proves the tarball came from
+#                 THIS tree; npm >= 11.5.1 floor installed in-lane. The
+#                 battery rides automatically (npm publish runs prepublishOnly
+#                 = npm run check), so a red battery cannot mint a tarball.
+#                 Gate: 0.x refused (0.x is the manual ship lane), and on a
+#                 tag push the tag must equal the packaged version.
+#   2. release  - the GH release object is cut from the tag. Its notes are
+#                 EXTRACTED from the CHANGELOG's own [version] section
+#                 (scripts/release-notes.cjs); an empty extraction refuses the
+#                 cut. Idempotent. The EXACT served tarball is attached
+#                 (polled, since the registry read replica lags), so the
+#                 release asset and the npm artifact are the same bytes.
+#   3. verify   - the post-publish truth (scripts/verify-release.cjs):
+#                 --npm registry latest == this tree's version, the served
+#                 tarball's sha512 == the registry integrity, provenance
+#                 present, then the full pack ladder on the served tarball;
+#                 --gh the release object exists and targets the tag's commit.
+#
+# One-time npmjs.com setup is REQUIRED before the first tag: memstruct ->
+# Settings -> Trusted Publisher (repo dhaupin/memstruct, workflow publish.yml).
+# The manual 0.9.0 bootstrap creates the package first, so the npm/cli#8544
+# limit (OIDC cannot create a brand-new package) does not apply.
+#
+# verify-only dispatch mode: no publish, no release minting - the verify job
+# re-runs the trust ladder against what is ALREADY published.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'publish = registry cut | verify-only = re-run the trust ladder against what is already served'
+        required: false
+        default: 'publish'
+        type: choice
+        options: ['publish', 'verify-only']
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  publish:
+    if: github.event_name == 'push' || inputs.mode != 'verify-only'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      version: ${{ steps.gate.outputs.version }}
+      tag: ${{ steps.gate.outputs.tag }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with: { node-version: '22' }
+      - name: npm floor for trusted publishing (11.5.1+)
+        run: npm install -g npm@^11
+      - id: gate
+        name: the gate - 0.x refused, tag == packaged version
+        # Every github context value reaches this script through env, never
+        # inline interpolation - an expression-injected tag name is the classic
+        # Actions injection class.
+        env:
+          TAG_REF: ${{ github.ref_name }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          set -e
+          V="$(node -p "require('./package.json').version")"
+          case "$V" in
+            0.*) echo "publish gate: refusing $V - the OIDC lane serves 1.0.0+ only (0.x is the manual ship lane)"; exit 1 ;;
+          esac
+          REF="$TAG_REF"
+          EVENT="$EVENT_NAME"
+          if [ "$EVENT" = "push" ]; then
+            if [ "$REF" != "v$V" ]; then
+              echo "publish gate: refusing - tag $REF does not equal the packaged version v$V (a tag that lies about its version never cuts)"; exit 1
+            fi
+          fi
+          TAG="v$V"
+          echo "publish gate: $TAG passes the 0.x refusal and the tag==version gate"
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+      - run: npm install --no-fund --no-audit
+      # Idempotent: if the registry already has this exact version, skip the
+      # publish instead of failing red on "cannot publish over the previously
+      # published version".
+      - name: Publish (skip if the registry already has this version)
+        run: |
+          LOCAL=$(node -p "require('./package.json').version")
+          REMOTE=$(npm view memstruct@$LOCAL version 2>/dev/null || true)
+          if [ "$REMOTE" = "$LOCAL" ]; then
+            echo "memstruct@$LOCAL already on the registry -- skipping publish"
+          else
+            npm publish --provenance
+          fi
+
+  release:
+    needs: publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with: { node-version: '22' }
+      - name: extract the release notes from the changelog (refuses empty)
+        env:
+          BLOCK_VERSION: ${{ needs.publish.outputs.version }}
+        run: node scripts/release-notes.cjs "$BLOCK_VERSION" > "$RUNNER_TEMP/notes.md"
+      - name: cut the GH release from the tag (idempotent)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BLOCK_VERSION: ${{ needs.publish.outputs.version }}
+          BLOCK_TAG: ${{ needs.publish.outputs.tag }}
+        run: |
+          TAG="$BLOCK_TAG"
+          if gh release view "$TAG" > /dev/null 2>&1; then
+            echo "release $TAG already exists - not re-minting; the verify job judges its truth"
+          else
+            gh release create "$TAG" --title "memstruct $BLOCK_VERSION" --notes-file "$RUNNER_TEMP/notes.md"
+          fi
+      - name: attach the served tarball to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          BLOCK_VERSION: ${{ needs.publish.outputs.version }}
+          BLOCK_TAG: ${{ needs.publish.outputs.tag }}
+        run: |
+          set -e
+          for i in $(seq 1 60); do
+            if npm pack "memstruct@$BLOCK_VERSION" --pack-destination "$RUNNER_TEMP" > /dev/null 2>&1; then break; fi
+            if [ "$i" = "60" ]; then echo "the registry never served memstruct@$BLOCK_VERSION (60 attempts)"; exit 1; fi
+            echo "waiting for memstruct@$BLOCK_VERSION on the registry (attempt $i/60)"; sleep 5
+          done
+          gh release upload "$BLOCK_TAG" "$RUNNER_TEMP/memstruct-$BLOCK_VERSION.tgz" --clobber
+
+  # The verify leg judges what the registry and GitHub actually serve, so it
+  # must wait for release to cut the object and attach the tarball.
+  verify:
+    needs: [publish, release]
+    if: >-
+      always() &&
+      (needs.publish.result == 'success' ||
+       (needs.publish.result == 'skipped' && inputs.mode == 'verify-only'))
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with: { fetch-depth: 0 }
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with: { node-version: '22' }
+      - name: the post-publish trust ladder (npm + GH release)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -e
+          V="$(node -p "require('./package.json').version")"
+          EXPECTED_EXPORTS="$(node -p "Object.keys(require('./package.json').exports).join(',')")"
+          PROBE="const m=require('memstruct');if(typeof m.mergeStores!=='function'||typeof m.lintStore!=='function')process.exit(1)"
+          node scripts/verify-release.cjs --npm --version "$V" --exports "$EXPECTED_EXPORTS" --probe "$PROBE"
+          node scripts/verify-release.cjs --gh --tag "v$V" --asset "memstruct-$V.tgz"
