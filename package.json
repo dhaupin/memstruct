@@ -22,7 +22,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node test/run.mjs",
+    "test": "node test/run.mjs && node --test test/release-verify.test.cjs test/check-action-pins.test.cjs",
     "lint:language": "node scripts/check-language.cjs",
     "lint:pins": "node scripts/check-action-pins.cjs",
     "lint:spec": "node scripts/check-spec-consistency.cjs",
@@ -31,7 +31,7 @@
     "prepublishOnly": "npm run check"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "keywords": [
     "memory",
