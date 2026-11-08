@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 jobs:
   test:
-    timeout-minutes: 10
+    timeout-minutes: 15
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -14,8 +14,9 @@ jobs:
       - run: npm install --no-fund --no-audit
       - run: npm test
       # The battery: language gate + action pins + spec/schema consistency +
-      # the merge conformance audit. The SAME `npm run check` is the
-      # prepublishOnly gate, so a red battery blocks a PR and a publish.
+      # the docs truth gates + the merge conformance audit. The SAME
+      # `npm run check` is the prepublishOnly gate, so a red battery blocks a
+      # PR and a publish.
       - name: check battery
         run: npm run check
       # The linter must bite both ways: a valid store passes, a broken one
@@ -27,3 +28,10 @@ jobs:
           if node bin/cli.mjs lint /tmp/bad.json >/dev/null 2>&1; then
             echo "lint should have failed on a record with no id"; exit 1
           fi
+      # The site half builds here too, so a broken landing red-lights the PR
+      # rather than surprising the Cloudflare Pages project (root `web`,
+      # build `npm run build`, output `dist`).
+      - name: Install web deps
+        run: npm install --prefix web --no-audit --no-fund
+      - name: Web build (prestruct prerender)
+        run: npm run build --prefix web

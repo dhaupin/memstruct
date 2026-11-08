@@ -4,6 +4,13 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### Added
+
+- The site half: a landing (`web/`, prestruct prerender -> Cloudflare Pages) and a docs rig (`docs/`, Jekyll -> GitHub Pages), stamped from the coreforge shell and rebranded. Identity lives once in `site.config.js`; the non-JS surfaces derive from it via the shell's `sync` verb.
+- `scripts/ship-from-download.cjs` - the family's phone publish lane (the Termux recipe, scripted), with `test/ship-from-download.test.cjs`.
+- The docs truth gates (`lint:docs`) and the two thin workflow callers (`docs-deploy.yml`, `staging-ff-sync.yml`).
+- `DEPLOY.md` - the deploy + release runbook (two faces, one package).
+
 ## [0.9.0] - 2026-11-08
 
 The first cut: the record format, the merge contract, and the conformance lane.

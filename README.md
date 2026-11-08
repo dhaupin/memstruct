@@ -96,11 +96,21 @@ memstruct rides existing rails instead of reinventing them: **MCP** (the wire), 
 
 0.9.0 - the manual lane. The format is `memstruct@1`; the four merge properties and the record envelope are frozen for v1.
 
+## The site
+
+The standard also ships a landing (`web/`) and a docs rig (`docs/`), both
+stamped from the coreforge shell: `web/` prerenders to Cloudflare Pages
+(`memstruct.creadev.org`), `docs/` builds to GitHub Pages
+(`docs.creadev.org/memstruct`). Identity lives once in `site.config.js`; see
+[DEPLOY.md](./DEPLOY.md) for the deploy runbook.
+
 ## Commands
 
 ```text
 npm test                # the battery: merge properties, lint refusals, conformance
-npm run check           # test + language gate + action pins + spec/schema + conformance
+npm run check           # test + language gate + action pins + spec/schema + docs + conformance
+npm run lint:docs       # the docs truth gates alone
+npm install --prefix web && npm run build --prefix web   # the landing, for real
 ```
 
 ## License

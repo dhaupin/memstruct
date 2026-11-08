@@ -1,0 +1,35 @@
+{
+  "viewBox": 64,
+  "paths": [
+    "M10 18h20v9H10z",
+    "M10 37h20v9H10z"
+  ],
+  "iris": {
+    "cx": 47,
+    "raw": {
+      "workSize": 64,
+      "cx": 47,
+      "cy": 32,
+      "midRadius": 0,
+      "thickness": 0,
+      "tickHalfLen": 7,
+      "tickHalfWidth": 4.5
+    }
+  },
+  "colors": {
+    "ink": "#e3eaec",
+    "accent": "#8894f4",
+    "tileBg": "#0a1113"
+  },
+  "inkMask": {
+    "minX": 10,
+    "maxX": 54,
+    "minY": 18,
+    "maxY": 46
+  },
+  "transform": {
+    "ox": 0,
+    "oy": 0,
+    "scale": 1
+  }
+}
