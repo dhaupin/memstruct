@@ -9,11 +9,21 @@
   items:
   - title: Overview
     url: /
-  - title: CLI
-    url: /cli/
+  - title: Why
+    url: /why/
+  - title: What
+    url: /what/
+  - title: About
+    url: /about/
 
 - title: Reference
   items:
+  - title: CLI
+    url: /cli/
+  - title: Family status
+    url: /status/
+  - title: Search
+    url: /search/
   - title: Release Posts
     url: /discussions/
 

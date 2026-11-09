@@ -8,15 +8,16 @@ nav_order: 2
 
 # The memstruct CLI
 
-memstruct ships one command, `memstruct`, with three verbs. The tool is
-language-neutral by construction: data in, data out, no network. That is what
-lets the same conformance lane grade a Python or Go implementation of the
-standard identically to this JavaScript one.
+memstruct ships one command, `memstruct`, with three interop verbs plus two
+self-check verbs. The tool is language-neutral by construction: data in, data
+out, no network. That is what lets the same conformance lane grade a Python or
+Go implementation of the standard identically to this JavaScript one.
 
 The format lives in the standard, not in the tool. `lint` validates a store
 against the record format, `merge` reconciles two stores under the merge
 contract, and `audit-merge` runs a whole case directory so the merge has a
-standing receipt.
+standing receipt. `check` runs the standard's own battery and `doctor` proves
+the merge end to end.
 
 ## The verbs
 
@@ -25,8 +26,10 @@ standing receipt.
 | `memstruct lint <store.json>` | validate a store against the record format. Unknown fields are carried, never refused. Exit 0 clean, 1 violations, 2 usage. |
 | `memstruct merge --local <a.json> --remote <b.json>` | reconcile two stores under the merge contract. JSON in, JSON out. |
 | `memstruct audit-merge <case-dir>` | run every case in a directory and compare the merged result to its golden, in both input orders (the order-independence leg). |
+| `memstruct check` | run the standard's own battery (`src/selfcheck.mjs`): the four merge properties, the linter's refusals on both sides, and the bundled conformance lane. Exit 0 all pass, 1 any fail. |
+| `memstruct doctor` | prove the merge end to end on a demo store and print the result, so the contract is shown rather than asserted. |
 
-Every verb takes `--json` for machine-readable output.
+The three interop verbs take `--json` for machine-readable output.
 
 ## Validating a store
 
