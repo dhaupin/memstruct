@@ -1,0 +1,23 @@
+{
+  "contract": "memstruct-battery@1",
+  "note": "The committed shape of the standard's own self-check battery (src/selfcheck.mjs, run by `memstruct check`). The status emitter (web/scripts/build-status.mjs) runs the live battery and reconciles it against this list: a check that passes reads PASSED, a check whose name is missing from the live run reads MISSING (a silently-deleted check is a smaller green, refused), and any live check not listed here reads UNLISTED (an unaccounted-for check is refused too). Edit this file in the same commit that adds or removes a check.",
+  "checks": [
+    "clock is max(updatedAt ?? createdAt, deletedAt ?? 0)",
+    "property 4 (monotonicity): the newer version wins, both orders",
+    "property 1 (convergence): merge is commutative",
+    "property 1 (convergence): merge is associative",
+    "property 2 (determinism): same inputs, same output",
+    "equal-clock tie is deterministic (both orders agree)",
+    "property 3 (tombstone): a delete hides, a later edit resurrects",
+    "a tombstone wins over an older record and propagates through a merge",
+    "output is canonical: records sorted by id",
+    "a clean store passes the linter",
+    "unknown fields are carried, never refused",
+    "a missing id refuses as record-id",
+    "a non-integer createdAt refuses as record-created-at",
+    "a non-1 memstruct refuses as store-version",
+    "a duplicate id refuses as record-id-duplicate",
+    "every bundled conformance case is honored",
+    "the conformance lane runs the merge both ways (order independence)"
+  ]
+}

@@ -1,6 +1,6 @@
 # labs/TASKS.md - memstruct
 
-Last updated: 2026-11-08 (the first cut, built and promoted; the two bindings filed).
+Last updated: 2026-11-03 (the family-canon gap-fill: the self-check battery, version truth, and the family-status@1 surface).
 
 ## Now
 
@@ -62,3 +62,20 @@ The memstruct CF Pages project was looking for a `/web` build and finding none. 
 **Open (dashboard-side, not in-repo).** Point the existing Cloudflare Pages project at root `web` / build `npm run build` / output `dist`. Set the Pages custom domain `docs.creadev.org` once in the repo's Pages settings. Both are runbook steps in `DEPLOY.md`.
 
 **Follow-up (fix/docs-url).** The docs lane's strict link check failed on the staging push: `docs.creadev.org/memstruct/...` resolved as a path. Root cause: `site.config.js`'s `docs.host`/`docs.url` carried no scheme, so the generated Jekyll `url` and freestruct `site.url` were scheme-less absolute URLs. Siblings (govstruct, packstruct) carry `https://`; memstruct's stamp had it wrong. Fixed both to `https://docs.creadev.org`, re-synced the two generated surfaces.
+
+## 2026-11-03 - the family-canon gap-fill (self-check battery, version truth, family-status@1)
+
+**Trigger.** A speed-run sibling (gamestruct, v1.0.0) showed the family-canon shape in a row; the more-complete siblings (crashtest, packstruct) confirmed which surfaces are canon. memstruct had the core (SPEC, `lint`/`merge`/`audit-merge`, conformance, gates, site, release ladder) but was the only member NOT legible to the family via `family-status@1`, and carried no self-check battery or version-truth census. This session filled those gaps from the siblings, not from memory.
+
+**Built.**
+
+- **The self-check battery.** `src/selfcheck.mjs` - 17 zero-dependency checks proving the four merge properties directly (convergence both ways, associativity, determinism, monotonicity, the tombstone hide/resurrect), the linter's refusals on both sides, and the bundled conformance lane. `labs/battery.json` is its committed contract (`memstruct-battery@1`). New CLI verbs `memstruct check` (runs it) and `memstruct doctor` (proves the merge end to end on a demo store).
+- **Version truth.** `test/version-truth.mjs` - package.json is THE single truth; the web rig and the site badge must derive, never hand-copy. It caught two pre-existing drifts on its first run: `web/package.json` carried its own `version: 0.9.0`, and `site.config.js` carried `badge: 'beta'`. Both fixed (the web rig drops the field; the badge derives as `'v' + pkg.version`).
+- **The family-status@1 surface.** `web/scripts/build-status.mjs` emits `web/public/status.json` on every web build from two legs: `selfcheck` (the live battery reconciled against `labs/battery.json` - a missing committed check reads MISSING/RED, an unlisted live check reads UNLISTED) and `conformance` (each bundled case, both orders). `web/src/pages/Status.jsx` + `FamilyStatusIsland.jsx` + the `/status` route read the family's served files honestly; `docs/status.md` states the dialect. `test/status.test.mjs` pins the emitter both ways (5 tests).
+- **Docs completion.** `why.md`, `what.md`, `about.md`, `search.md` (plus `status.md`), nav rows, and the `check`/`doctor` verbs in `cli.md`.
+
+**Model receipts.** Shape from gamestruct (`lib/selfcheck.mjs`, `labs/battery.json`, `web/scripts/build-status.mjs`, `tests/version-truth.mjs`, the Status page/island, the docs set); the emitter's temp-dir-testable `build(root)` and the dialect fields from packstruct (`test/status.test.mjs`); the badge-derivation rule from gamestruct's `site.config.js`.
+
+**Doctrine check (receipts, not invention).** The gap table was verified against the actual sibling trees, not assumed. Two candidate surfaces were DROPPED as not-canon: `.github/ISSUE_TEMPLATE/` (only packstruct has it; crashtest and gamestruct do not) and `horcrux/` + `scripts/unwrap-prose.cjs` (only crashtest + packstruct; gamestruct lacks both). memstruct's brand census also caught the first nav draft (`Why memstruct`, `What memstruct is` are identity literals in a structural surface); relabelled to the generic `Why` / `What` so `coreforge check` stays green, matching memstruct's own baseline.
+
+**Verified.** `npm run check` green (42 node:test cases + 16 merge/lint cases, language, pins, spec, docs, conformance 5/5, `memstruct check` 17/17). `coreforge sync --check` clean. `coreforge check` green (brand census back to PASS after the nav relabel). Web build: 4/4 pages rendered, 0 failures, 0 warnings.

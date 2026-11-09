@@ -6,6 +6,11 @@ web/node_modules/
 web/dist/
 dist/
 
+# The family-status@1 emitter's output (regenerated on every web build - see
+# web/scripts/build-status.mjs; committing it would be the stale-copy drift
+# class the family kills everywhere else - regeneration IS the freshness).
+web/public/status.json
+
 # npm pack artifacts
 *.tgz
 .DS_Store

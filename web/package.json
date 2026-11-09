@@ -1,12 +1,11 @@
 {
   "name": "memstruct-site",
   "private": true,
-  "version": "0.9.0",
   "type": "module",
   "description": "memstruct site - the shell the struct family ships from (prestruct prerender + static hosting)",
   "scripts": {
     "dev": "vite",
-    "build": "prestruct build",
+    "build": "node scripts/build-status.mjs && prestruct build",
     "preview": "vite preview"
   },
   "dependencies": {

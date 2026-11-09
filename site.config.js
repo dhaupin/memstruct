@@ -17,11 +17,15 @@
  * identity (ssr.config.js, robots, webmanifest) come from ONE block below, so
  * the two sites cannot disagree about who they are.
  */
+import pkg from './package.json' with { type: 'json' }
+
 export default {
   // --- identity -----------------------------------------------------------
   name: 'memstruct',
   wordmark: { accent: 'mem', rest: 'struct' },
-  badge: 'beta',
+  // The badge DERIVES from package.json (the one version truth), so it can
+  // never drift on a cut. test/version-truth.mjs holds the line.
+  badge: 'v' + pkg.version,
   tagline: 'One record format, one merge contract.',
   description:
     'A memory standard for all: one record format and one merge contract, so any two memory systems exchange memory without a rewrite.',
@@ -64,6 +68,7 @@ export default {
   // renders the text link).
   nav: [
     { label: 'Home', to: '/', end: true, group: 'site' },
+    { label: 'Status', to: '/status', group: 'site' },
     { label: 'GitHub', href: 'https://github.com/dhaupin/memstruct', group: 'out' },
   ],
   // Footer-only extras (legal + provenance). Keep legal labels smaller than
@@ -104,6 +109,15 @@ export default {
       meta: {
         title: 'Privacy | memstruct',
         description: 'What the memstruct CLI and this site collect: nothing hidden, no tracking states to find.',
+      },
+    },
+    {
+      path: '/status',
+      priority: '0.4',
+      changefreq: 'daily',
+      meta: {
+        title: 'Family status | memstruct',
+        description: 'The family-status@1 dialect: every struct-family member serves its committed verdicts at /status.json and reads the others with the same schema.',
       },
     },
   ],

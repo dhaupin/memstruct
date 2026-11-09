@@ -61,4 +61,14 @@ npx memstruct merge --local mine.json --remote theirs.json
 npx memstruct audit-merge conformance/cases
 ```
 
-See [the CLI page](/cli/) for the full verb table.
+See [the CLI page](/cli/) for the full verb table, including `check` and
+`doctor`.
+
+<div class="crosslinks">
+<p><strong>More in these docs:</strong>
+<a href="{{ '/why/' | relative_url }}">why</a> ·
+<a href="{{ '/what/' | relative_url }}">what</a> ·
+<a href="{{ '/cli/' | relative_url }}">the CLI</a> ·
+<a href="{{ '/status/' | relative_url }}">family status</a></p>
+</div>
+
