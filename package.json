@@ -29,7 +29,9 @@
     "lint:pins": "node scripts/check-action-pins.cjs",
     "lint:spec": "node scripts/check-spec-consistency.cjs",
     "conform": "node bin/cli.mjs audit-merge conformance/cases",
-    "check": "npm run test && npm run lint:language && npm run lint:pins && npm run lint:spec && npm run lint:docs && npm run conform && node bin/cli.mjs check",
+    "sync": "coreforge sync",
+    "sync:check": "coreforge sync --check",
+    "check": "npm run test && npm run lint:language && npm run lint:pins && npm run lint:spec && npm run lint:docs && npm run conform && npm run sync:check && node bin/cli.mjs check",
     "prepublishOnly": "npm run check"
   },
   "engines": {
@@ -55,5 +57,8 @@
   "bugs": {
     "url": "https://github.com/dhaupin/memstruct/issues"
   },
-  "homepage": "https://github.com/dhaupin/memstruct#readme"
+  "homepage": "https://github.com/dhaupin/memstruct#readme",
+  "devDependencies": {
+    "coreforge": "^0.9.0"
+  }
 }
