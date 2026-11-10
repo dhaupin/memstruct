@@ -21,10 +21,12 @@ All notable changes to this project are documented here. The format is based on 
 - `site.config.js` badge now DERIVES from `package.json` (`badge: 'v' + pkg.version`) instead of a hand-copied literal, so the header cannot drift on a cut.
 - `web/package.json` drops its own `version` field (the side package rides the root version; drift is refused, not remembered).
 - `docs/cli.md` documents the `check` and `doctor` verbs; `npm run check` now runs `memstruct check` as a final leg.
+- The docs identity now has a real sync verb (the coreforge adopter sweep, #48/#49/#35). `docs/_config.yml` and `docs/freestruct.config.yml` already named `npm run sync`, but the script did not exist; `sync` / `sync:check` (via the pinned `coreforge` CLI) are added, `sync:check` is wired into `npm run check`, and `coreforge` is declared as a devDependency. `docs-deploy.yml` now triggers on `site.config.js` (the identity the generated files derive from, issue #49).
 
 ### Fixed
 
 - The version-truth census caught two pre-existing drifts in one pass: a hand-copied `version` in `web/package.json` and a hand-copied `badge: 'beta'` in `site.config.js`.
+- The `.gitignore` docs block missed the in-tree pagefind products (issue #48); it now carries `docs/pagefind/` and `docs/pagefind*` alongside the Jekyll cache lines.
 
 ## [0.9.0] - 2026-11-08
 

@@ -20,7 +20,11 @@ on:
     # promotion); the lane's deploy job is gated to main, so staging never
     # publishes.
     branches: [main, staging]
-    paths: ['docs/**', '.github/workflows/docs-deploy.yml']
+    # site.config.js is listed because the docs identity (docs/_config.yml,
+    # docs/freestruct.config.yml) is GENERATED from it by `coreforge sync`, so
+    # an identity-only edit is a real docs change the filter would otherwise
+    # miss (issue #49).
+    paths: ['docs/**', 'site.config.js', '.github/workflows/docs-deploy.yml']
   workflow_dispatch:
 
 permissions:
