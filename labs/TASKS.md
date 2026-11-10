@@ -79,3 +79,16 @@ The memstruct CF Pages project was looking for a `/web` build and finding none. 
 **Doctrine check (receipts, not invention).** The gap table was verified against the actual sibling trees, not assumed. Two candidate surfaces were DROPPED as not-canon: `.github/ISSUE_TEMPLATE/` (only packstruct has it; crashtest and gamestruct do not) and `horcrux/` + `scripts/unwrap-prose.cjs` (only crashtest + packstruct; gamestruct lacks both). memstruct's brand census also caught the first nav draft (`Why memstruct`, `What memstruct is` are identity literals in a structural surface); relabelled to the generic `Why` / `What` so `coreforge check` stays green, matching memstruct's own baseline.
 
 **Verified.** `npm run check` green (42 node:test cases + 16 merge/lint cases, language, pins, spec, docs, conformance 5/5, `memstruct check` 17/17). `coreforge sync --check` clean. `coreforge check` green (brand census back to PASS after the nav relabel). Web build: 4/4 pages rendered, 0 failures, 0 warnings.
+
+---
+
+**2026-11-10 - the adopter sweep: #48 / #49 / #35 (coreforge#52 propagation).**
+
+Propagated the coreforge adopter-sweep fixes to this stamped site.
+
+- **#48** - the `.gitignore` docs block now ignores the in-tree Jekyll + pagefind products (`docs/.jekyll-cache/`, `docs/.jekyll-metadata`, `docs/pagefind/`, `docs/pagefind*`), so a local `npm run docs` build leaves no untracked noise.
+- **#49** - `docs-deploy.yml` now triggers on `site.config.js`. The docs identity (`docs/_config.yml`, `docs/freestruct.config.yml`) is GENERATED from it by `coreforge sync`, so an identity-only edit is a real docs change the old filter missed.
+- **#35** - `test.yml` gains the arm-gated eyestruct row (pinned `eyestruct@1.1.0`, gated on `labs/.eyes/manifest.yml` existing) running the browserless, read-only `eyestruct gate`. Canon stays CI-cut; the battery only refuses drift.
+- **Latent gap closed.** `docs/_config.yml` + `docs/freestruct.config.yml` both say "run `npm run sync`", but the script did not exist. Added `sync` / `sync:check` via the pinned `coreforge` CLI, wired `sync:check` into `npm run check`, and declared `coreforge` as a devDependency.
+
+**Receipts.** `npm test` 42/42, `npm run check` green (incl. `sync:check` PASS), edited YAML parses. No version bump; 0.9.0 still held.
