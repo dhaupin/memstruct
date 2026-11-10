@@ -15,6 +15,7 @@ import site from '../site.config.js'
 export default {
   siteUrl: site.url,
   siteName: site.name,
+  breadcrumb: true,
   author: site.author,
   tagline: site.tagline,
   ogImage: { url: `${site.url}/og-image.png`, width: 1200, height: 630, alt: `${site.name} - ${site.tagline}` },
