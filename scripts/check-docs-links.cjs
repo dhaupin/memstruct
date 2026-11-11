@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 /**
  * Docs link checker (ported from vant's scripts/check-docs-links.js,
- * adapted to crashtest's baseurl).
+ * adapted to memstruct's baseurl).
  *
  * Validates every markdown link in docs/:
- * - /crashtest/<permalink> links must match a real frontmatter permalink
- *   (this is the gate that would have caught the /crashtest/crashtest
+ * - /memstruct/<permalink> links must match a real frontmatter permalink
+ *   (this is the gate that would have caught the /memstruct/memstruct
  *   doubled-prefix class and packs.md's dead module-plan link)
  * - other absolute links must match a permalink or resolve under docs/
  * - relative links must resolve on disk
@@ -15,7 +15,7 @@
 const fs = require('fs');
 const path = require('path');
 const DOCS = path.resolve(__dirname, '..', 'docs');
-const SITE_PREFIX = '/crashtest';
+const SITE_PREFIX = '/memstruct';
 // normalize: leading slash, no trailing slash ('' -> '/')
 const norm = (s) => {
   s = '/' + String(s).replace(/^\/+|\/+$/g, '');
@@ -54,12 +54,12 @@ for (const f of files) {
         if (u.startsWith(SITE_PREFIX) || u === SITE_PREFIX) {
           const key = norm(u.slice(SITE_PREFIX.length));
           if (!perm.has(key)) {
-            console.log('BROKEN (bad /crashtest/ permalink) in', rel, '->', m[1]);
+            console.log('BROKEN (bad /memstruct/ permalink) in', rel, '->', m[1]);
             broken++;
           }
           continue;
         }
-        if (u.startsWith('/crashtest/crashtest')) {
+        if (u.startsWith('/memstruct/memstruct')) {
           console.log('BROKEN (doubled site prefix) in', rel, '->', m[1]);
           broken++;
           continue;
@@ -74,11 +74,11 @@ for (const f of files) {
         }
         // A page-relative link resolves against the SERVED page URL, not the
         // source tree: on a no-trailing-slash permalink page the browser reads
-        // /crashtest/foo as a file, so '../x'/'./x' lands one level off and
+        // /memstruct/foo as a file, so '../x'/'./x' lands one level off and
         // 404s (the gistory/poststruct discussions break, same shape). The old
         // resolution below checked the SOURCE tree, which always has the file,
-        // so it never bit. Internal links are root-absolute (/crashtest/...).
-        console.log('BROKEN (relative - use a root-absolute /crashtest link) in', rel, '->', m[1]);
+        // so it never bit. Internal links are root-absolute (/memstruct/...).
+        console.log('BROKEN (relative - use a root-absolute /memstruct link) in', rel, '->', m[1]);
         broken++;
       }
     }

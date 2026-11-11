@@ -9,6 +9,8 @@
   items:
   - title: Overview
     url: /
+  - title: Start here
+    url: /start/
   - title: Why
     url: /why/
   - title: What
@@ -18,8 +20,14 @@
 
 - title: Reference
   items:
+  - title: The contract
+    url: /contract/
   - title: CLI
     url: /cli/
+  - title: CI and releases
+    url: /ci/
+  - title: FAQ
+    url: /faq/
   - title: Family status
     url: /status/
   - title: Search
