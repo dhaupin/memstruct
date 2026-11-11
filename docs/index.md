@@ -13,6 +13,19 @@ two memory systems can exchange memory without a rewrite. This is the docs
 head; the normative text lives in
 [`spec/SPEC.md`](https://github.com/dhaupin/memstruct/blob/main/spec/SPEC.md).
 
+## Start here
+
+| page | what it covers |
+|------|----------------|
+| [Start here]({{ '/start/' | relative_url }}) | the five-minute on-ramp: write a store, lint it, merge two, grade the merge |
+| [Why memstruct]({{ '/why/' | relative_url }}) | every system invents its own shape and merge, so interop is a rewrite - why a small frozen interchange ends it |
+| [What memstruct is]({{ '/what/' | relative_url }}) | the record format, the four merge properties, the verbs |
+| [The contract]({{ '/contract/' | relative_url }}) | the normative record format and merge contract (SPEC sec 3-4) |
+| [The CLI]({{ '/cli/' | relative_url }}) | `lint`, `merge`, `audit-merge`, `check`, `doctor` |
+| [CI and the release ladder]({{ '/ci/' | relative_url }}) | the check battery, the two deploy lanes, the publish gate |
+| [FAQ]({{ '/faq/' | relative_url }}) | short answers: is it a memory system, does it replace git or MCP, is the format stable |
+| [Family status]({{ '/status/' | relative_url }}) | the `family-status@1` dialect memstruct serves |
+
 ## The layer trap
 
 "How do we standardize memory" is two questions, not one:

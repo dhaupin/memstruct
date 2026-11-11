@@ -4,6 +4,23 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### 2026-11-10 - the marketing lander + the docs parity pass
+
+Owner directive: give memstruct a home lander that markets the standard and fills the web/docs gaps so memstruct is in parity with its siblings. The product site was a bare hero (one page) while every sibling shipped a full lander plus What/Why/About; the docs were missing the on-ramp and reference pages the family carries. This session closes both.
+
+**The lander (`web/src/pages/Home.jsx`).** The bare hero becomes a full marketing page, in the family's lander shape: hero with capability chips, a thesis band, who-it-is-for, a why-it-is-needed table (the shape / the substrate / the merge), what-you-get (the four-field envelope + the four merge properties), how-it-works (four steps), the layer-trap section, a grounded-in-shipped-engines band (vant, gistory, packstruct), why-builders-adopt, a rides-the-rails section (MCP, PROV-O, CRDTs), and a final CTA. Every claim cites the shipped standard (the envelope and the four properties in `spec/SPEC.md`, the verbs in `bin/cli.mjs`, the lane in `conformance/cases/`).
+
+**Four web pages to sibling parity.** `Start.jsx` (the five-minute on-ramp: write, lint, merge, grade), `Why.jsx` (N-squared rewrites and the layer trap), `What.jsx` (the record format, the merge contract, the verbs), and `About.jsx` (the struct family + license, with the Creadev.org link). Routes wired in `AppLayout.jsx`; nav and route meta added in `site.config.js`. The marketing CSS (`.band`, `.chips`, `.section-title`, inline-code chips) is ported byte-for-byte from the family shell into `web/src/styles.css`. Web build green: **8/8 pages rendered** (was 4), SEO audit clean.
+
+**Four docs pages to sibling parity.** `docs/start.md` (the on-ramp), `docs/contract.md` (the normative record format + merge contract), `docs/ci.md` (the check battery, the two deploy lanes, the release ladder), and `docs/faq.md`. `docs/index.md` gains a Start-here hub table; `docs/_data/nav.yml` links every new page.
+
+**Root docs.** `README.md` now points to the site and docs up top and carries the Creadev.org link (top and license); fixed the Node version drift (README said Node 20+, `engines` requires >=22). `CONTRIBUTING.md`'s battery line now names the full chain.
+
+**Fixed a latent gate drift.** `scripts/check-docs-links.cjs` still carried crashtest's `SITE_PREFIX = '/crashtest'` (a port residue); it is now `/memstruct`, so a bad `/memstruct/...` permalink link is actually caught.
+
+- Receipts: `npm run check` green (17/17 self-checks, docs gates 12 pages, conformance 5/5, sync:check PASS, spec consistency PASS); `npm run build --prefix web` 8/8 pages, 0 audit failures.
+- No version bump (0.9.0); the standard is unchanged (format `memstruct@1`).
+
 ### 2026-11-10 - light mode by default (web + docs)
 
 Owner directive: the family defaults to light. The product sites and docs sites shipped dark-first (a persisted `light` was the opt-in); now light is the first paint and a persisted `dark` theme is the opt-in. Shape: `<html>` pins `data-theme="light"`, the pre-paint bootstrap applies only a persisted `dark`, and the `theme-color` meta flips to the light paper. The CSS token blocks are untouched (the light block is already the second half of one set), so no palette, toggle handler, or gate changed.
