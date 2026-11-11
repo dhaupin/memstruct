@@ -4,13 +4,15 @@
 
 Every memory system invents its own record shape and its own merge, so moving memory between two of them is a rewrite every time. That is the xkcd-927 shape: the answer is not a 50,001st memory system, it is a small frozen interchange plus a conformance lane. memstruct is that interchange.
 
+Site: <https://memstruct.creadev.org>. Docs: <https://docs.creadev.org/memstruct>. Made by [dhaupin](https://github.com/dhaupin) at [Creadev.org](https://creadev.org).
+
 ```text
 npx memstruct lint  my-store.json
 npx memstruct merge --local mine.json --remote theirs.json
 npx memstruct audit-merge conformance/cases
 ```
 
-Zero dependencies. Node 20+.
+Zero dependencies. Node 22+.
 
 ## The layer trap
 
@@ -115,4 +117,4 @@ npm install --prefix web && npm run build --prefix web   # the landing, for real
 
 ## License
 
-MIT.
+MIT. Made by [dhaupin](https://github.com/dhaupin) at [Creadev.org](https://creadev.org).

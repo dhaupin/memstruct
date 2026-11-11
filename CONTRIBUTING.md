@@ -8,7 +8,7 @@ Run the gate. It is the same one CI and the publish lane run:
 
 ```text
 npm test          # the battery
-npm run check     # test + language gate + action pins + spec/schema + conformance
+npm run check     # test + language + action pins + spec/schema + docs + conformance + sync + the standard's own check
 ```
 
 A red gate blocks a merge. A red gate also blocks a publish, because `npm run check` is `prepublishOnly`.

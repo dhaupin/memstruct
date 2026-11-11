@@ -68,7 +68,12 @@ export default {
   // renders the text link).
   nav: [
     { label: 'Home', to: '/', end: true, group: 'site' },
+    { label: 'Start', to: '/start', group: 'site' },
+    { label: 'Why', to: '/why', group: 'site' },
+    { label: 'What', to: '/what', group: 'site' },
+    { label: 'About', to: '/about', group: 'site', header: false },
     { label: 'Status', to: '/status', group: 'site' },
+    { label: 'Docs', href: 'https://docs.creadev.org/memstruct/', group: 'out' },
     { label: 'GitHub', href: 'https://github.com/dhaupin/memstruct', group: 'out' },
   ],
   // Footer-only extras (legal + provenance). Keep legal labels smaller than
@@ -91,6 +96,46 @@ export default {
         title: 'memstruct - the memory standard',
         description:
           'One record format and one merge contract, so any two memory systems exchange memory without a rewrite. A language-neutral standard with a CLI and a conformance lane.',
+      },
+    },
+    {
+      path: '/start',
+      priority: '0.9',
+      changefreq: 'monthly',
+      meta: {
+        title: 'Start here | memstruct',
+        description:
+          'New to memstruct? Write a store, lint it, merge two, and grade the merge against the conformance lane - the five-minute on-ramp, no prior knowledge assumed.',
+      },
+    },
+    {
+      path: '/why',
+      priority: '0.7',
+      changefreq: 'monthly',
+      meta: {
+        title: 'Why | memstruct',
+        description:
+          'Every memory system invents its own shape and its own merge, so interop is a rewrite every time. Why a small frozen interchange and a normative merge end it.',
+      },
+    },
+    {
+      path: '/what',
+      priority: '0.7',
+      changefreq: 'monthly',
+      meta: {
+        title: 'What | memstruct',
+        description:
+          'One record format, one merge contract, three verbs, zero dependencies. What ships in the box and the smallest surface two memory systems share.',
+      },
+    },
+    {
+      path: '/about',
+      priority: '0.5',
+      changefreq: 'monthly',
+      meta: {
+        title: 'About | memstruct',
+        description:
+          'Who builds memstruct, the struct family it belongs to, the MIT license, and the provenance terms.',
       },
     },
     {
