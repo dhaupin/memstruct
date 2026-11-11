@@ -5,6 +5,20 @@ web/node_modules/
 # build output
 web/dist/
 dist/
+web/.prestruct/
+
+# install/report noise (the family block; govstruct canon)
+coverage/
+.npm/
+*.log
+*.swp
+Thumbs.db
+
+# Environment files never travel with the repo (defense-in-depth: the CLI
+# reads no .env secrets - they only exist in maintainer sandboxes).
+.env
+.env.*
+!.env.example
 
 # The family-status@1 emitter's output (regenerated on every web build - see
 # web/scripts/build-status.mjs; committing it would be the stale-copy drift

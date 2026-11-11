@@ -4,6 +4,22 @@ All notable changes to this project are documented here. The format is based on 
 
 ## [Unreleased]
 
+### 2026-11-11 - the thesis band lands on the content grid (mobile)
+
+Owner report: the thesis band - the accent-ruled pull-quote below the hero - rendered as a full-bleed bar on mobile. The text was bold and the block ran edge to edge with no margin, as if the rule were missing its parent container. Owner note: "I'm in mobile more."
+
+**The defect (measured, not guessed).** `.band.thesis .wrap` carried the accent as a `border-left` on `.wrap`, and `.wrap` is content-box. On desktop `.wrap` is capped at 960px and centred, so the rule sat on the content grid by luck. On a narrow viewport `.wrap` fills the width, so its left border landed flush at the viewport edge (x=0) - a 3px accent bar hugging the screen edge for the full height of the band, with the text pushed in by the pad. Rendered at 390px in headless chromium: the rule ran the band's full height at x=0,1,2 (receipt: `--window-size=390,5200` screenshot; accent-column scan found the vertical rule at x=0).
+
+**The fix (`web/src/styles.css`).** Two geometry rules keep the rule on the content grid at every width:
+- `.band.thesis { padding-left: 20px; padding-right: 20px; }` - the band carries the `.wrap` gutter on both sides, so the rule can never sit flush against the viewport edge on narrow screens. The band's full-bleed background is unaffected (padding sits inside the background box).
+- `.band.thesis .wrap { border-left: 3px solid var(--accent); padding-left: 17px; }` - `3px border + 17px pad = the 20px gutter` every section's `.wrap` uses, so the band box is the same 1000px as its siblings (the old 24px pad made the box 7px wider and nudged the rule off the grid).
+
+**Receipts.** Rebuilt web (8/8 pages, 0 SEO-audit failures). Headless probe at 1280px: band `.wrap` x=133 w=1000, matching section `.wrap` x=133 w=1000 - `RULE ON GRID: true, BOX MATCH: true`. At 390px: the accent rule sits at x=20 (was x=0); no horizontal overflow (`scrollWidth == clientWidth`).
+
+**Also:** `.gitignore` gains the family hygiene block (`coverage/`, `.npm/`, `*.log`, `*.swp`, `Thumbs.db`, `.env`/`.env.*` with `!.env.example`); no tracked file is affected (`git ls-files | git check-ignore --stdin` empty).
+
+**Parity.** The same defect and the same markup ship in gamestruct (the sibling the lander CSS was ported from), so the identical fix lands there too. No version bump (0.9.0); no standard change.
+
 ### 2026-11-10 - the marketing lander + the docs parity pass
 
 Owner directive: give memstruct a home lander that markets the standard and fills the web/docs gaps so memstruct is in parity with its siblings. The product site was a bare hero (one page) while every sibling shipped a full lander plus What/Why/About; the docs were missing the on-ramp and reference pages the family carries. This session closes both.
