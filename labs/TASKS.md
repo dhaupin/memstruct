@@ -1,6 +1,6 @@
 # labs/TASKS.md - memstruct
 
-Last updated: 2026-11-03 (the family-canon gap-fill: the self-check battery, version truth, and the family-status@1 surface).
+Last updated: 2026-11-11 (the thesis band lands on the content grid; the family gitignore hygiene block).
 
 ## Now
 
@@ -130,3 +130,17 @@ Owner directive: memstruct's product site was a bare hero and the docs were miss
 **Receipts.** `npm run check` green (17/17 self-checks, docs gates 12 pages, conformance 5/5, sync:check PASS, spec consistency PASS); `npm run build --prefix web` **8/8 pages rendered** (was 4), 0 SEO-audit failures. No version bump (0.9.0); the standard is unchanged (`memstruct@1`).
 
 **Note on the family shape.** The lander/page set is ported from gamestruct's shell (the same family template); the copy is memstruct's own, grounded in `spec/SPEC.md`, `bin/cli.mjs`, and `conformance/cases/`. Receipts, not invention.
+
+## 2026-11-11 - the thesis band lands on the content grid (mobile) + the gitignore hygiene block
+
+Owner report: the thesis band (the accent-ruled pull-quote below the hero) read as a full-bleed bar on mobile - bold text, block edge-to-edge, no margin, "might be missing a css parent container." Owner is mobile-first.
+
+**Root cause (measured).** The accent was a `border-left` on `.band.thesis .wrap`, and `.wrap` is content-box. Desktop centres a 960px `.wrap`, so the rule landed on the grid by luck; a narrow `.wrap` fills the width, so its left border sat flush at x=0 - a full-height 3px bar on the screen edge. Receipt: 390px headless screenshot, accent-column scan found the rule at x=0,1,2.
+
+**Fix (`web/src/styles.css`).** `.band.thesis { padding-left/right: 20px }` gives the band the gutter (rule can never reach the edge; the full-bleed background is untouched since padding is inside the background box), and `.band.thesis .wrap { padding-left: 17px }` keeps `3px border + 17px pad = 20px`, so the band box stays the same 1000px as every section.
+
+**Receipts.** Rebuilt web 8/8 pages, 0 audit failures. Probe: 1280px band `.wrap` x=133 w=1000 == section `.wrap` (`RULE ON GRID: true, BOX MATCH: true`); 390px rule at x=20 (was 0), no horizontal overflow.
+
+**Parity.** gamestruct ships the same defect + markup (it is the sibling the lander CSS was ported from); the identical fix lands there.
+
+**Gitignore.** `.gitignore` gains the family hygiene block (`coverage/`, `.npm/`, `*.log`, `*.swp`, `Thumbs.db`, `.env`/`.env.*` + `!.env.example`). Earlier "status.json untracked leak" flags were a misread of `!!` in `git status --ignored`; `web/public/status.json` was already ignored (line 26). No tracked file is affected. The coreforge template's `.gitignore` still lacks the `status.json` line - flagged for the template pass.
