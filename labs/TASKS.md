@@ -144,3 +144,13 @@ Owner report: the thesis band (the accent-ruled pull-quote below the hero) read 
 **Parity.** gamestruct ships the same defect + markup (it is the sibling the lander CSS was ported from); the identical fix lands there.
 
 **Gitignore.** `.gitignore` gains the family hygiene block (`coverage/`, `.npm/`, `*.log`, `*.swp`, `Thumbs.db`, `.env`/`.env.*` + `!.env.example`). Earlier "status.json untracked leak" flags were a misread of `!!` in `git status --ignored`; `web/public/status.json` was already ignored (line 26). No tracked file is affected. The coreforge template's `.gitignore` still lacks the `status.json` line - flagged for the template pass.
+
+---
+
+## 2026-11-11 - the mobile nav fits the viewport
+
+Owner report (mobile-first): the header overflowed the phone screen and the burger - the only menu control below 640px - sat off-screen. Measured at 390px (headless probe): `document.scrollWidth` 431 vs `clientWidth` 375; the burger at x=397..431. The right cluster (GitHub icon + paint-scheme select + theme switch + burger) needs ~200px against ~144px free after the wordmark.
+
+- **Fix (`web/src/styles.css`, the 640px block).** The decorative badge hides, the gaps tighten (`.nav-inner` 22->8px, `.nav-right` 8->4px), and the wordmark may shrink (`.brand { min-width: 0; overflow: hidden; white-space: nowrap }`). Every control is kept; the row can always fit, so the burger is always reachable.
+- **Receipts.** Rebuilt dist probed at 320/360/375/390/414px - no overflow at any width, burger on-screen, all controls present. `npm run check` green.
+- **Fleet.** The same defect + fix landed in all 9 sites carrying the family shell (coreforge, crashtest, govstruct, monoforge, poststruct, eyestruct, packstruct, memstruct, gamestruct); coreforge's `templates/site/` carries the same block, so a stamped repo inherits it.
