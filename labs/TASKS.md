@@ -168,3 +168,10 @@ Owner report: the `/status` page's family grid showed a bunch of rows reading "n
 **The guard (a new law ships with a fixture that breaks it).** `tests/status.test.mjs` gains the reader-clause leg: it reads the island's `origin:` rows and the served CSP, and fails by name for any sibling origin the CSP omits. Proved both ways - removing an origin from the CSP fails the leg; restoring it passes.
 
 **Scope.** The same defect + fix landed in gamestruct (the sibling whose island also fetches the full family). The other island repos already carried the sibling origins in their `connect-src`.
+
+### 2026-11-12 - session: the Dependabot flow lands (railyard#31)
+
+- **Change.** Added `.github/dependabot.yml` (weekly Monday, grouped minor/patch, majors alone, plus the `github-actions` ecosystem). npm directories `/`, `/web`.
+- **Shape (receipt).** `dhaupin/creadev` PR #38 (`fca49c6`); the family-wide rollout is tracked on `dhaupin/railyard#31`.
+- **Guard.** railyard's `scripts/check-dependabot.cjs` (the shape) + `scripts/check-dependabot.test.cjs` (it bites), wired into railyard CI.
+- **No version bump.**
