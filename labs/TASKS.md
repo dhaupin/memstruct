@@ -175,3 +175,12 @@ Owner report: the `/status` page's family grid showed a bunch of rows reading "n
 - **Shape (receipt).** `dhaupin/creadev` PR #38 (`fca49c6`); the family-wide rollout is tracked on `dhaupin/railyard#31`.
 - **Guard.** railyard's `scripts/check-dependabot.cjs` (the shape) + `scripts/check-dependabot.test.cjs` (it bites), wired into railyard CI.
 - **No version bump.**
+
+### 2026-11-12 - session: the v1.0.0 cut
+
+The family release-readiness pass (owner-driven). This repo's first stable cut:
+
+- **Version.** `0.9.0 -> 1.0.0` (package.json - the single version truth; the web rig rides it, the site badge derives it, the README H1 is bare by design). The format is `memstruct@1`; the record envelope and the four merge properties are frozen for v1.
+- **Changelog.** `## [Unreleased]` cut to `## [1.0.0] - 2026-11-12`; entries stay verbatim.
+- **Announcement.** `docs/discussions/announcing-v1.0.0.md` + the first index row.
+- **Release.** Branch -> PR -> `staging` -> PR -> `main`, then the `v1.0.0` tag drives the OIDC ladder.

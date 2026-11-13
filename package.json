@@ -1,6 +1,6 @@
 {
   "name": "memstruct",
-  "version": "0.9.0",
+  "version": "1.0.0",
   "description": "A memory standard for all: one record format and one merge contract so memory systems interoperate. Zero-dependency CLI - lint, merge (LWW + tombstones), audit-merge.",
   "type": "module",
   "license": "MIT",
