@@ -22,7 +22,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "test": "node test/version-truth.mjs && node test/run.mjs && node --test test/status.test.mjs test/release-verify.test.cjs test/check-action-pins.test.cjs test/ship-from-download.test.cjs",
+    "test": "node test/version-truth.mjs && node test/run.mjs && node --test test/status.test.mjs test/release-verify.test.cjs test/check-action-pins.test.cjs test/ship-from-download.test.cjs test/docs-post-permalinks.test.mjs",
     "test:ship": "node --test test/ship-from-download.test.cjs",
     "lint:docs": "node scripts/check-docs-frontmatter.cjs && node scripts/check-docs-links.cjs && node scripts/check-docs-style.cjs && node scripts/check-fiction-signatures.cjs && node scripts/check-jekyll-filters.cjs",
     "lint:language": "node scripts/check-language.cjs",
