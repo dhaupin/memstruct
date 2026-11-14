@@ -1,5 +1,5 @@
 ---
-permalink: discussions/announcing-v1.0.0
+permalink: discussions/announcing-v1.0.0/
 layout: default
 title: Announcing memstruct v1.0.0
 description: memstruct v1.0.0 freezes the record envelope and the four merge properties, ships the self-check battery and the check/doctor CLI verbs, and stands the package up as its own landing plus docs rig.
