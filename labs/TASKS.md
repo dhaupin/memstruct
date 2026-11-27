@@ -1,5 +1,8 @@
 # labs/TASKS.md - memstruct
 
+**2026-11-03 - the npm parity gate earned its teeth.** The family law is "a new law ships with a test", but this gate had stopped biting: it passed if any one of several surfaces carried the npm link, so a deleted footer link went unnoticed (measured: docs layout link removed, old gate 3 pass / 0 fail). Rewritten as a predicate over an explicit REQUIRED surface list, resolving the literal URL, {{ site.npm_url }} and {{ site.title }} against docs/_config.yml, with two mutation tests proving a stripped surface and a wrong-package link are both refused. Verified both ways: clean tree green, deleted link red (2 fail). memstruct's docs header renders `{{ site.npm_url }}` and its site.config.js carries the nav literal; both are required.
+
+
 Last updated: 2026-11-11 (the thesis band lands on the content grid; the family gitignore hygiene block).
 
 ## Now
