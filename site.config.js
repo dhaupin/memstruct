@@ -74,6 +74,7 @@ export default {
     { label: 'About', to: '/about', group: 'site', header: false },
     { label: 'Status', to: '/status', group: 'site' },
     { label: 'Docs', href: 'https://docs.creadev.org/memstruct/', group: 'out' },
+    { label: 'npm', href: 'https://www.npmjs.com/package/memstruct', group: 'out' },
     { label: 'GitHub', href: 'https://github.com/dhaupin/memstruct', group: 'out' },
   ],
   // Footer-only extras (legal + provenance). Keep legal labels smaller than
